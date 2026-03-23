@@ -118,12 +118,29 @@ NEO4J_URI=bolt://localhost:7687
 NEO4J_USER=neo4j
 NEO4J_PASSWORD=miroshark
 
-# Embeddings
+# Embeddings — "ollama" or "openai" provider
+EMBEDDING_PROVIDER=ollama
 EMBEDDING_MODEL=nomic-embed-text
 EMBEDDING_BASE_URL=http://localhost:11434
+EMBEDDING_API_KEY=
+EMBEDDING_DIMENSIONS=768
 ```
 
-Works with any OpenAI-compatible API — swap Ollama for Claude, GPT, or any other provider by changing `LLM_BASE_URL` and `LLM_API_KEY`.
+Works with **any OpenAI-compatible API** — swap Ollama for OpenRouter, OpenAI, Claude, or any other provider by changing `LLM_BASE_URL` and `LLM_API_KEY`.
+
+**Example: OpenRouter (no local GPU needed)**
+
+```bash
+LLM_API_KEY=sk-or-v1-your-key
+LLM_BASE_URL=https://openrouter.ai/api/v1
+LLM_MODEL_NAME=qwen/qwen-2.5-72b-instruct
+
+EMBEDDING_PROVIDER=openai
+EMBEDDING_MODEL=openai/text-embedding-3-small
+EMBEDDING_BASE_URL=https://openrouter.ai/api
+EMBEDDING_API_KEY=sk-or-v1-your-key
+EMBEDDING_DIMENSIONS=768
+```
 
 ## Architecture
 
