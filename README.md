@@ -144,11 +144,15 @@ Open `http://localhost:3000`.
 
 Simulation runs hundreds of LLM calls (once per agent per turn). A typical detailed simulation is ~40 turns with 100+ agents. Pick a model that balances cost and quality:
 
-| Model | ID | ~Cost/sim | Notes |
-|---|---|---|---|
-| Qwen3 235B A22B Instruct 2507 ⭐ | `qwen/qwen3-235b-a22b-2507` | ~$0.30 | Best price/quality ratio |
-| GPT-5 Nano | `openai/gpt-5-nano` | ~$0.41 | Good backup option |
-| Kimi K2 | `moonshotai/kimi-k2` | ~$3.17 | Higher quality if needed |
+| Model | ID | Cost/sim | Context | Notes |
+|---|---|---|---|---|
+| **Qwen3 235B A22B Instruct 2507** ⭐ | `qwen/qwen3-235b-a22b-2507` | **~$0.30** | 262K | Best overall |
+| GPT-5 Nano | `openai/gpt-5-nano` | ~$0.41 | 400K | Cheap but lower quality |
+| Gemini 2.5 Flash Lite | `google/gemini-2.5-flash-lite` | ~$0.58 | 1M | Good budget alt |
+| DeepSeek V3.2 | `deepseek/deepseek-v3.2` | ~$1.11 | 164K | GPT-5 class quality, optimized for agentic tool-use |
+| Gemini 3.1 Flash Lite | `google/gemini-3.1-flash-lite` | ~$1.74 | 1M | Fast, huge context |
+
+Qwen3 2507 is the clear winner — nothing beats it at that price for the quality level. DeepSeek V3.2 is worth the ~3.7x premium if you want stronger agentic reasoning, which maps well to MiroShark's simulation patterns.
 
 **Embeddings** — `openai/text-embedding-3-small` on OpenRouter. Keep `EMBEDDING_DIMENSIONS=768` to match the Neo4j index.
 
