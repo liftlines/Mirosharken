@@ -2734,13 +2734,11 @@ def export_simulation_data(simulation_id: str):
         filename_base = f"miroshark_export_{simulation_id[:12]}_{timestamp}"
 
         if export_format == 'json':
-            tmp = tempfile.NamedTemporaryFile(
-                mode='w', suffix='.json', delete=False, prefix='miroshark_export_'
-            )
-            json.dump(export_data, tmp, indent=2, default=str, ensure_ascii=False)
-            tmp.close()
+            buf = io.BytesIO()
+            buf.write(json.dumps(export_data, indent=2, default=str, ensure_ascii=False).encode('utf-8'))
+            buf.seek(0)
             return send_file(
-                tmp.name,
+                buf,
                 mimetype='application/json',
                 as_attachment=True,
                 download_name=f"{filename_base}.json"
@@ -2757,11 +2755,8 @@ def export_simulation_data(simulation_id: str):
         fieldnames = ['round_num', 'timestamp', 'platform', 'agent_id',
                       'agent_name', 'action_type', 'action_args', 'result', 'success']
 
-        tmp = tempfile.NamedTemporaryFile(
-            mode='w', suffix='.csv', delete=False,
-            prefix='miroshark_export_', newline=''
-        )
-        writer = csv.DictWriter(tmp, fieldnames=fieldnames, extrasaction='ignore')
+        string_buf = io.StringIO()
+        writer = csv.DictWriter(string_buf, fieldnames=fieldnames, extrasaction='ignore')
         writer.writeheader()
         for row in rows:
             row_copy = dict(row)
@@ -2769,10 +2764,12 @@ def export_simulation_data(simulation_id: str):
             if isinstance(row_copy.get('action_args'), dict):
                 row_copy['action_args'] = json.dumps(row_copy['action_args'], ensure_ascii=False)
             writer.writerow(row_copy)
-        tmp.close()
 
+        buf = io.BytesIO()
+        buf.write(string_buf.getvalue().encode('utf-8'))
+        buf.seek(0)
         return send_file(
-            tmp.name,
+            buf,
             mimetype='text/csv',
             as_attachment=True,
             download_name=f"{filename_base}.csv"
