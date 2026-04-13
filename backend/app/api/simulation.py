@@ -2496,7 +2496,6 @@ def get_belief_drift(simulation_id: str):
                 "consensus_stance": consensus_stance,
                 "total_rounds": len(rounds),
                 "summary": summary,
-                "belief_drift_summary": summary,
             }
         })
 
