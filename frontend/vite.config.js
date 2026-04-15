@@ -10,16 +10,17 @@ export default defineConfig({
     compression({ algorithm: 'brotliCompress' }),
   ],
   server: {
-    port: 3000,
-    open: true,
-    proxy: {
-      '/api': {
-        target: 'http://localhost:5001',
-        changeOrigin: true,
-        secure: false
-      }
+  port: 3000,
+  open: true,
+  allowedHosts: ['mirosharken-production.up.railway.app'],
+  proxy: {
+    '/api': {
+      target: 'http://localhost:5001',
+      changeOrigin: true,
+      secure: false
     }
-  },
+  }
+},
   build: {
     rollupOptions: {
       output: {
